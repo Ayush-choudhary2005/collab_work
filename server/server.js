@@ -15,10 +15,16 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok', message: 'CollabFlow AI server is running.' });
 });
 
-// NOTE: Auth/Tenant/Project/Task routes are intentionally NOT mounted yet —
-// that's Phase 2. This file only wires up the server, DB connection, and
-// error handling so the middleware/models built in Phase 1 have somewhere
-// to plug into next.
+// Phase 2: Auth, Tenant, Project and Task routes
+const authRoutes = require('./src/routes/auth.routes');
+const tenantRoutes = require('./src/routes/tenant.routes');
+const projectRoutes = require('./src/routes/project.routes');
+const taskRoutes = require('./src/routes/task.routes');
+
+app.use('/api/auth', authRoutes);
+app.use('/api/tenants', tenantRoutes);
+app.use('/api/projects', projectRoutes);
+app.use('/api/tasks', taskRoutes);
 
 // 404 handler for anything unmatched
 app.all('*', (req, res, next) => {
