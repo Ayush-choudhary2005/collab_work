@@ -19,4 +19,23 @@ const createProject = catchAsync(async (req, res, next) => {
   });
 });
 
-module.exports = { createProject };
+// Lists ONLY the projects of the caller's verified tenant. Any workspace
+// member (including guests) can view — no role gate on this one.
+const getProjects = catchAsync(async (req, res, next) => {
+  const projects = await Project.find({ tenantId: req.tenantId }).sort({ createdAt: -1 });
+
+  res.status(200).json({
+    status: 'success',
+    results: projects.length,
+    data: {
+      projects: projects.map((p) => ({
+        id: p._id,
+        name: p.name,
+        tenantId: p.tenantId,
+        createdAt: p.createdAt,
+      })),
+    },
+  });
+});
+
+module.exports = { createProject, getProjects };
