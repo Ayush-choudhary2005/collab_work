@@ -5,16 +5,26 @@ import axios from 'axios';
 export const STORAGE_KEYS = {
   token: 'cf_token',
   tenantId: 'cf_tenant_id',
+  user: 'cf_user',
 };
 
 export const setToken = (token) => localStorage.setItem(STORAGE_KEYS.token, token);
+export const setStoredUser = (user) => localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(user));
+export const getStoredUser = () => {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEYS.user));
+  } catch {
+    return null;
+  }
+};
 export const setTenantId = (id) => localStorage.setItem(STORAGE_KEYS.tenantId, id);
 export const clearTenantId = () => localStorage.removeItem(STORAGE_KEYS.tenantId);
-// Logout / expired session: wipe BOTH, so a stale tenant id from one user
-// can never leak into the next user's requests on the same browser.
+// Logout / expired session: wipe EVERYTHING, so a stale tenant id from one
+// user can never leak into the next user's requests on the same browser.
 export const clearSession = () => {
   localStorage.removeItem(STORAGE_KEYS.token);
   localStorage.removeItem(STORAGE_KEYS.tenantId);
+  localStorage.removeItem(STORAGE_KEYS.user);
 };
 
 const api = axios.create({
