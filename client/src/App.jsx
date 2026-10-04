@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import WorkspaceSetup from './pages/WorkspaceSetup';
 import Dashboard from './pages/Dashboard';
+import Members from './pages/Members';
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
                 <Route path="/workspace/new" element={<WorkspaceSetup />} />
                 <Route element={<RequireWorkspace />}>
                   <Route path="/" element={<Dashboard />} />
+                  <Route path="/members" element={<Members />} />
                 </Route>
               </Route>
 

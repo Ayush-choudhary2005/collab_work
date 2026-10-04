@@ -75,6 +75,7 @@ export default function Dashboard() {
           />
         </div>
         <div className="flex items-center gap-3 text-sm">
+          <Link to="/members" className="text-indigo-600 hover:underline">Members</Link>
           <Link to="/workspace/new" className="text-indigo-600 hover:underline">New workspace</Link>
           <span className="text-slate-500">{user.fullName}</span>
           <Button variant="secondary" onClick={logout}>Log out</Button>
